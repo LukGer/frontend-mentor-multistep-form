@@ -1,11 +1,38 @@
 <script lang="ts">
 	import FirstStep from './FirstStep.svelte';
 	import FourthStep from './FourthStep.svelte';
+	import type { Form } from './interfaces';
 	import SecondStep from './SecondStep.svelte';
 	import ThirdStep from './ThirdStep.svelte';
 
 	let countSteps = 4;
-	let currentStep = 1;
+	let currentStep = 0;
+
+	let form: Form = {
+		plan: '',
+		planPrice: 0,
+		yearlyBilling: false,
+		addOns: [
+			{
+				title: 'Online service',
+				subTitle: 'Access to multiplayer games',
+				price: 1,
+				enabled: false
+			},
+			{
+				title: 'Larger storage',
+				subTitle: 'Extra 1TB of cloud save',
+				price: 2,
+				enabled: false
+			},
+			{
+				title: 'Customizable profile',
+				subTitle: 'Custom theme on your profile',
+				price: 2,
+				enabled: false
+			}
+		]
+	};
 
 	let validate: () => boolean;
 
@@ -35,11 +62,16 @@
 			{#if currentStep === 0}
 				<FirstStep bind:validate />
 			{:else if currentStep === 1}
-				<SecondStep bind:validate />
+				<SecondStep
+					bind:validate
+					bind:plan={form.plan}
+					bind:planPrice={form.planPrice}
+					bind:yearlyBilling={form.yearlyBilling}
+				/>
 			{:else if currentStep === 2}
-				<ThirdStep />
+				<ThirdStep yearlyBilling={form.yearlyBilling} bind:addOns={form.addOns} bind:validate />
 			{:else}
-				<FourthStep />
+				<FourthStep {form} />
 			{/if}
 		</div>
 
@@ -54,12 +86,12 @@
 			{/if}
 			<div class="flex-1" />
 
-			{#if currentStep < countSteps - 1}
-				<button
-					class="rounded-md bg-marineBlue px-4 py-3 text-sm font-medium text-white"
-					on:click={() => advanceStep()}>Next Step</button
-				>
-			{/if}
+			<button
+				class="rounded-md bg-marineBlue px-4 py-3 text-sm font-medium text-white"
+				class:bg-purplishBlue={currentStep === countSteps - 1}
+				on:click={() => advanceStep()}
+				>{currentStep < countSteps - 1 ? 'Next Step' : 'Confirm'}</button
+			>
 		</div>
 	</div>
 </div>

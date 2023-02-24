@@ -1,7 +1,7 @@
 <script lang="ts">
-	let selected = 0;
-
-	let yearly = false;
+	export let plan: string;
+	export let planPrice: number;
+	export let yearlyBilling = false;
 
 	export const validate = () => true;
 </script>
@@ -11,51 +11,51 @@
 	<p class=" text-coolGray">You have the option of monthly or yearly billing.</p>
 
 	<button
-		on:click={() => (selected = 0)}
+		on:click={() => ((plan = 'Arcade'), (planPrice = 9))}
 		class="flex flex-row items-center gap-4 rounded-md border-[1px] border-lightGray bg-opacity-5  p-4 transition-colors duration-150"
-		class:border-purplishBlue={selected === 0}
-		class:bg-purplishBlue={selected === 0}
+		class:border-purplishBlue={plan === 'Arcade'}
+		class:bg-purplishBlue={plan === 'Arcade'}
 	>
 		<img src="/icon-arcade.svg" alt="arcade" />
 
 		<div class="flex flex-col items-start">
 			<p class="font-medium text-marineBlue">Arcade</p>
-			<p class="text-sm text-coolGray">{!yearly ? '$9/mo' : '$90/yr'}</p>
-			{#if yearly}
+			<p class="text-sm text-coolGray">{!yearlyBilling ? '$9/mo' : '$90/yr'}</p>
+			{#if yearlyBilling}
 				<p class="text-sm text-marineBlue">2 months free</p>
 			{/if}
 		</div>
 	</button>
 
 	<button
-		on:click={() => (selected = 1)}
+		on:click={() => ((plan = 'Advanced'), (planPrice = 12))}
 		class="flex flex-row items-center gap-4 rounded-md border-[1px] border-lightGray bg-opacity-5  p-4 transition-colors duration-150"
-		class:border-purplishBlue={selected === 1}
-		class:bg-purplishBlue={selected === 1}
+		class:border-purplishBlue={plan === 'Advanced'}
+		class:bg-purplishBlue={plan === 'Advanced'}
 	>
 		<img src="/icon-advanced.svg" alt="arcade" />
 
 		<div class="flex flex-col items-start">
 			<p class="font-medium text-marineBlue">Advanced</p>
-			<p class="text-sm text-coolGray">{!yearly ? '$12/mo' : '$120/yr'}</p>
-			{#if yearly}
+			<p class="text-sm text-coolGray">{!yearlyBilling ? '$12/mo' : '$120/yr'}</p>
+			{#if yearlyBilling}
 				<p class="text-sm text-marineBlue">2 months free</p>
 			{/if}
 		</div>
 	</button>
 
 	<button
-		on:click={() => (selected = 2)}
+		on:click={() => ((plan = 'Pro'), (planPrice = 15))}
 		class="flex flex-row items-center gap-4 rounded-md border-[1px] border-lightGray bg-opacity-5  p-4 transition-colors duration-150"
-		class:border-purplishBlue={selected === 2}
-		class:bg-purplishBlue={selected === 2}
+		class:border-purplishBlue={plan === 'Pro'}
+		class:bg-purplishBlue={plan === 'Pro'}
 	>
 		<img src="/icon-pro.svg" alt="arcade" />
 
 		<div class="flex flex-col items-start">
 			<p class="font-medium text-marineBlue">Pro</p>
-			<p class="text-sm text-coolGray">{!yearly ? '$15/mo' : '$150/yr'}</p>
-			{#if yearly}
+			<p class="text-sm text-coolGray">{!yearlyBilling ? '$15/mo' : '$150/yr'}</p>
+			{#if yearlyBilling}
 				<p class="text-sm text-marineBlue">2 months free</p>
 			{/if}
 		</div>
@@ -64,14 +64,14 @@
 	<div
 		class="mt-4 flex h-12 flex-row items-center justify-center gap-4 rounded-md bg-purplishBlue bg-opacity-5"
 	>
-		<p>Monthly</p>
+		<p class="text-md font-medium text-coolGray" class:text-marineBlue={!yearlyBilling}>Monthly</p>
 
 		<label class="relative w-12 rounded-full bg-marineBlue">
-			<input type="checkbox" class="h-0 w-0 opacity-0" bind:checked={yearly} />
+			<input type="checkbox" class="h-0 w-0 opacity-0" bind:checked={yearlyBilling} />
 			<span class="slider absolute inset-0 before:bg-white" />
 		</label>
 
-		<p>Yearly</p>
+		<p class="text-md font-medium text-coolGray" class:text-marineBlue={yearlyBilling}>Yearly</p>
 	</div>
 </div>
 
